@@ -1,23 +1,28 @@
-name: Node API
-
-on: [push, pull_request]
-
+name: node js
+on: [push]
+env: 
+  Dev: Dev
+  Prod: Prod
 jobs:
-  job1: 
-    name: first job
-    runs-on: ubuntu-latest
+  build_1:
+    name: build One
+    runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        Node: [10.x, 12.x]
     steps:
-    - name: Step One
-      uses: actions/checkout@v2
-    - name: Step Two
-      run: env | sort
-
-
-  job2:
-    name: second job
-    runs-on: windows-latest
-    steps:
-    - name: Step One
-      uses: actions/checkout@v2
-    - name: Step Two
-      run: "Get-ChildItem Env: | Sort-Object Name"
+      - name: Check out branch
+        uses: action/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v1.1.0
+        with:
+          # Version Spec of the version to use.  Examples: 10.x, 10.15.1, >=10.15.0, lts
+          version: ${{ matrix.Node }}
+      - name: Run npm builds
+        run: |
+          npm install
+          npm run build --if-present
+          npm start
+        
+        
+        

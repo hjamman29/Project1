@@ -3,11 +3,11 @@ on: [push, pull_request]
 jobs:
   build_1:
     name: build one
-    runs-on: $${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [10.x, 12.x]
-        os: [ubuntu-latest, windows-latest]
+        node_version: [12.x]
+        os: [ubuntu-latest]
     steps:
       - name: Check out branch
         uses: actions/checkout@v2.0.0
